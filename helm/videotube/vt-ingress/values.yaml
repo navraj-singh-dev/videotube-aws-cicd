@@ -6,7 +6,7 @@ replicaCount: 1
 image:
   repository: "navrajsinghdev/videotube"
   pullPolicy: Always
-  tag: "1.0.0"
+  tag: "11556584676"
 
 # Other sensitive environement variables are coming from kubernetes secrets these are the non-sensitive ones.
 env:
