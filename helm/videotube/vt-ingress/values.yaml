@@ -1,0 +1,25 @@
+# This values.yaml contains dummy values but with original key names and is just for github repo.
+# The real values.yaml is not given as it contains sensitive data
+
+replicaCount: 1
+
+image:
+  repository: "navrajsinghdev/videotube"
+  pullPolicy: Always
+  tag: "1.0.0"
+
+# Other sensitive environement variables are coming from kubernetes secrets these are the non-sensitive ones.
+env:
+  PORT: 4000
+  ACCESS_TOKEN_EXPIRY: 1d
+  REFRESH_TOKEN_EXPIRY: 10d
+
+service:
+  type: LoadBalancer
+  port: 80
+
+ingress:
+  # in the windows /host file localy map the aws load balancer url to this ingress host
+  # aws load balancer url : ingress resource host name
+  host: videotube.local
+  servicePort: 80

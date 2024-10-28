@@ -1,0 +1,24 @@
+My laptop
+  - I will do changes in my project code and push to main branch of my github repo
+  - The github-actions will see the changes and run/trigger the CI workflows i created.
+
+CI
+  - Step 1 is to build the project code
+  - Step 2 is to do static code analysis
+  - Step 3 is to build a new docker image and push it to docker hub
+  - Step 4 is to update our existing helm chart's 'values.yaml' file
+    where the container image's tag will be updated as new image is created
+
+# So now after CI: 
+  # A new docker image is created+pushed, 
+  # which contains my recent code changes i pushed to main branch.
+  # Also my project (videotube) helm chart's 'values.yaml' file is updated by CI to refer to this new docker image on docker hub.
+
+CD
+  - ArgoCD will look for changes in the values.yaml of the helm chart
+  - ArgoCD will now pull the helm chart with the updated values.yaml
+  - ArgoCD will deploy this helm chart on EKS.
+  - Done
+
+Monitoring and Logging:
+  - These will be added manually and separately from this pipeline.

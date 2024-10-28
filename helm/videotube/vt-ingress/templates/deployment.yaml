@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ .Release.Name }}-deployment
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: videotube
+    
+  template:
+    metadata:
+      labels:
+        app: videotube
+    
+    spec:
+      containers:
+        - name: videotube-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+
+          env:
+            - name: PORT
+              value: "{{ .Values.env.PORT }}"
+            
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: videotube-secrets
+                  key: MONGODB_URI
+            
+            - name: CORS_ORIGIN
+              value: '*'
+            
+            - name: ACCESS_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: videotube-secrets
+                  key: ACCESS_TOKEN_SECRET
+            
+            - name: ACCESS_TOKEN_EXPIRY
+              value: "{{ .Values.env.ACCESS_TOKEN_EXPIRY }}"
+            
+            - name: REFRESH_TOKEN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: videotube-secrets
+                  key: REFRESH_TOKEN_SECRET
+            
+            - name: REFRESH_TOKEN_EXPIRY
+              value: "{{ .Values.env.REFRESH_TOKEN_EXPIRY }}"
+            
+            - name: CLOUDINARY_CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: videotube-secrets
+                  key: CLOUDINARY_CLOUD_NAME
+            
+            - name: CLOUDINARY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: videotube-secrets
+                  key: CLOUDINARY_API_KEY
+            
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: videotube-secrets
+                  key: CLOUDINARY_API_SECRET
+
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          ports:
+            - containerPort: {{ .Values.env.PORT | default 8000 }}

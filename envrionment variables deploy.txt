@@ -1,0 +1,18 @@
+# My project's helm chart 'values.yaml' must be safe and must not contain any secret and sensitive information.
+# So i am refactoring my 'values.yaml' so that it only contains simple non-sensitive data.
+
+# This command below will be used to deploy the sensitive environment variables that my project's pod will need,
+# to run the application.
+
+# Just when you create your aws eks cluster, just run this command with your real sensitive values to deploy all these secrets.
+
+# Now when argocd will deploy your helm chart, the application pod will use these pre-deployed secrets to run the app.
+# As now my application's deployment-set pod definition takes environment variables from these secrets and not from helm chart.
+
+kubectl create secret generic videotube-secrets \
+  --from-literal=MONGODB_URI="" \
+  --from-literal=ACCESS_TOKEN_SECRET="" \
+  --from-literal=REFRESH_TOKEN_SECRET="" \
+  --from-literal=CLOUDINARY_CLOUD_NAME="" \
+  --from-literal=CLOUDINARY_API_KEY="" \
+  --from-literal=CLOUDINARY_API_SECRET=""

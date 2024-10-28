@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: {{ .Release.Name }}-ingress
+  
+
+spec:
+  # The open source community nginx ingress controller is used.
+  # It will look for this 'nginx' as class name to identify this ingress resource
+  # After identification, nginx ingress conrtroller will manage this ingress resource
+  ingressClassName: nginx
+  rules:
+    # if a outside request come to this host below..
+  - host: {{.Values.ingress.host}}
+    http:
+      paths:
+      - pathType: Prefix
+        # at this path..
+        path: "/"
+        backend:
+          # forward the request to this service..
+          service:
+            name: {{ .Release.Name }}-service
+            # at this port..
+            port: 
+              number: {{.Values.ingress.servicePort}}

@@ -1,0 +1,19 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: videotube
+  region: ap-south-1
+
+nodeGroups:
+  - name: node-group-1
+    instanceType: t3a.medium
+    desiredCapacity: 1
+    minSize: 1
+    maxSize: 7 # To allow some scaling if needed
+    iam:
+      instanceRoleARN: arn:aws:iam::<account number>:role/<role name>
+
+addons:
+  - name: aws-ebs-csi-driver
+    version: latest

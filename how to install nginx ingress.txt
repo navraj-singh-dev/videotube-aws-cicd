@@ -1,0 +1,60 @@
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.1/deploy/static/provider/aws/deploy.yaml
+
+| This nginx controller for ingress is a community driven project and is quite popular ingress to use.
+
+
+
+# Install Nginx Ingress Controller on AWS
+Deploy the below manifest in aws eks as it is, from the terminal you are operating on:
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.1/deploy/static/provider/aws/deploy.yaml
+
+| A new namespace called 'ingress-nginx' will be created in which all the ingress resources will be created.
+| Do a kubectl get all -n ingress-nginx
+
+| A new load balancer will be created on AWS EKS when this is applied. Take the address url of that load balancer
+| and map with the host name you gave in ingress manifest file:
+
+```
+  rules:
+  - host: {{.Values.ingress.host}} # map this one with ingress load balancer ip address using nslookup
+```
+
+| How to map this nginx aws load balancer ip-adress with our ingress host name locally?
+
+0. Make sure the project helm chart is already deployed with the ingress.
+1. Apply this: kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.1/deploy/static/provider/aws/deploy.yaml
+2. Then do a kubectl get ing
+3. Copy the load balancer address (which will not be in ipadress right now but a long string)
+4. Run nslookup <paste in the copied ingress load balancer address from step 3>
+   You will get many numerical ip-addresses. Choose the last one or any if you like.
+5.On linux go the path below:
+  Go to this path -> /etc/hosts and map them like:
+  aws loadbalancer ip address : ingress host name
+
+6. Here is a more concrete example:
+```
+root@Acer:~# kubectl get ing
+NAME                CLASS   HOSTS             ADDRESS                                                                          PORTS   AGE
+videotube-ingress   nginx   videotube.local   afd1e224cce414033908cdb1188a213e-8b76cb7ce7835aef.elb.ap-south-1.amazonaws.com   80      40m
+
+root@Acer:~# nslookup afd1e224cce414033908cdb1188a213e-8b76cb7ce7835aef.elb.ap-south-1.amazonaws.com
+Server:         10.255.255.254
+Address:        10.255.255.254#53
+
+Non-authoritative answer:
+Name:   afd1e224cce414033908cdb1188a213e-8b76cb7ce7835aef.elb.ap-south-1.amazonaws.com
+Address: 3.110.252.155
+Name:   afd1e224cce414033908cdb1188a213e-8b76cb7ce7835aef.elb.ap-south-1.amazonaws.com
+Address: 3.6.17.137 (I choose this one)
+Name:   afd1e224cce414033908cdb1188a213e-8b76cb7ce7835aef.elb.ap-south-1.amazonaws.com
+Address: 15.206.227.198
+
+root@Acer:~# cat /etc/hosts
+127.0.0.1       localhost
+127.0.1.1       Acer.   Acer
+3.6.17.137 videotube.local # Here like this
+
+```
+
+7. Now go to your linux system browser and open 'videotube.local' and you app must be seen there.
