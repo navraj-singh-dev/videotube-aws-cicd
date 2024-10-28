@@ -4,7 +4,7 @@
 replicaCount: 1
 
 image:
-  repository: "navrajsinghdev/videotube"
+  repository: "navrajsinghdev/aws-cicd-videotube"
   pullPolicy: Always
   tag: "11556584676"
 
