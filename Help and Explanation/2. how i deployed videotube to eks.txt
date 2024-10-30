@@ -1,0 +1,38 @@
+- Create cluster with eks-config-manifest-file. It will 20-30 minutes. Also make a new github repo (this is where all the project code, k8s code, helm charts, workflows etc. will be pushed later on)
+  In this github repo create the secrets by going to the setting of the repo as these secrets will be mentioned in the CI workflow file.
+
+- Deploy the environment variables as secrets using the given 'kubectl command' in the .txt file.. do it manually immediately after the cluster is created and ready.
+
+- Deploy videotube project custom helm chart and also make sure your nginx ingress resource, nginx ingress controller and a ingress loadbalancer are deployed and working
+  (refer to the .txt file in the repo which tells how to setup nginx ingress on this cluster). As our k8s env secrets are already deployed.. our application running in pod will
+  automatically refer to them as it is designed to do so. 
+
+- Just test this helm chart and ingress a little bit to see if all is fine, then uninstall the helm chart, as argocd will deploy it later on. No need to delete the ingress resources.
+
+- Now our cluster is again empty and only the nginx ingress resources are running there.
+
+- Then i already have a empty github repo setup with all the secrets, here push your local project code and the local CI workflow code and helm charts etc. to populate the github repo.
+
+- Now github actions CI pipeline will run as we pushed project to github repo, you new docker image will be created and builded by the CI workflow, your project's 'values.yaml' will be updated also, 
+  then a new commit will be created on your github repo mentioning the videotube project helm chart's 'values.yaml' got updated. That is it for CI part.
+
+- Now its time for argocd and CD.
+
+- Install the argoCD onto yor cluster as instructed in the .txt file in the root of the repo.
+
+- Open argoCD UI, there create a new app with the right options and configs and that is it. CICD is done.
+
+- Now whatever change to the project code you do and then push that change to the github repo: 
+  - The CI pipeline will run
+  - Build the new docker image and push it to docker hub
+  - After this docker image is pushed to docker-hub, the 'values.yaml' file of the videotube project's helm chart will be updated,
+    it will updated as that it refer to the new image that is pushed to docker hub. Now as values.yaml file is updated our github repo
+    must have this as commit that it got updated, so yeah at last a new commit is created in the repo.
+  - Now CI is done. We have a new docker image on docker hub and a updated helm chart and a new commit on the github repo.
+  - Its time for CD using argoCD now.
+  
+  - ArgoCD which is deployed on our cluster is now watching our github repo closely. It just looks for one thing to change and that is our project's helm chart.
+  - ArgoCD will see that CI has updated the helm chart's values.yaml (because there is a new commit on our github repo). Then it will redeploy our helm chart on the AWS EKS cluster
+    with the updated 'values.yaml' file which is referring to our new docker image on docker hub.
+
+  - Now the end user surfing my application on the browser will see new changes after some seconds.. in literally near 0 downtime.
