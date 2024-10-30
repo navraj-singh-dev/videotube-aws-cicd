@@ -6,7 +6,7 @@ replicaCount: 1
 image:
   repository: "navrajsinghdev/aws-cicd-videotube"
   pullPolicy: Always
-  tag: "11558762814"
+  tag: "11595849717"
 
 # Other sensitive environement variables are coming from kubernetes secrets these are the non-sensitive ones.
 env:
