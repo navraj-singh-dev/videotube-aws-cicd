@@ -195,12 +195,9 @@ The project follows a typical [Node.js] MVC architecture pattern with additional
    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.1/deploy/static/provider/aws/deploy.yaml
    ```
 
-5. Locally map your ingress-resource-host-name with ingress-load-balancer numerical ip address in /etc/hosts file of your linux OS (optional):
-  <br>
-   - You can directly use the ingress loadbalancer ip-address(the long alphabetical string url) as it is without needing to follow this step. This step is just if in case you like to use the host name to access your project on internet.
-   - Like instead of writing `afd1e224cce414033908cdb1188a213e-8b76cb7ce7835aef.elb.ap-south-1.amazonaws.com` in your browser's search bar to access `videotube` application on the internet, you can simply use `videotube.local` in the browser search bar to access the application on internet or any other custom hostname you like.
-   - If your follow this step, then your browser will go inside the `/etc/hosts` file and map the `videotube.local` host name to the numerical ip-address of the `afd1e224cce414033908cdb1188a213e-8b76cb7ce7835aef.elb.ap-south-1.amazonaws.com`.
-     <br>
+5. Locally map your `ingress-resource-host-name` with `ingress-load-balancer` numerical IP-Address in `/etc/hosts` file of your linux machine:
+   - The `nginx-ingress-controller` in our EKS cluster will only accept our browser's request to enter into the videotube application, if the internet requests are coming on the same host-name defined in the manifest file of our ingress resource. In my case the host-name is `videotube.local` defined in the `values.yaml` of the `vt-ingress` helm chart.
+   - Simply put, we cannot access our videotube application on internet, if the hostname is not `videotube.local` in my case. Ofcourse you can use any other host name other than `videotube.local`.
 
    ```plaintext
    root@Acer:~# kubectl get ing
@@ -209,25 +206,25 @@ The project follows a typical [Node.js] MVC architecture pattern with additional
    ```
 
    ```bash
-   # When you deploy a nginx ingress controller to EKS cluster (in step 4), it also creates a load balancer on AWS.
-   # This load-balancer ip-address is the gateway to open this project, this is where you will go and send API requests to this backend, a webpage will open if a browser sends a http request here..
+   # When you deploy a nginx-ingress-controller to EKS cluster (in step 4), it also creates a loadbalancer on AWS.
+   # This 'videotube.local' hostname maped to nginx-ingress-loadbalancer numerical IP Address is the gateway to open this project, 'videotube.local' this is where you will go and send API requests to this backend, a webpage will open if a browser sends a http request here.
 
    # After step 4 do this..
-   # This command will show external ip address (it will be a long string) of this ingress, copy that..
+   # This command will show external IP Address (it will be a long alphabetical string) of this nginx-ingress-loadbalancer, copy that..
    kubectl get ing
 
    # Then run this command below..
-   # 'netstat' will show multiple numerical ip-addresses in output. Copy any one of them.
+   # 'netstat' will show multiple numerical IP Addresses in output. Copy any one of them.
    netstat <copied external address>
 
    # Then open the /etc/hosts
    sudo nano /etc/hosts
 
-   # Now paste the numerical ip-address on left side and put a space and then paste your ingress host name you defined in the values.yaml file..
-   # In my manifest file i defined my ingress as 'videotube.local', so my /etc/hosts entry will be like:
-   <numerical ip address you copied from netstat> video.local
+   # Now paste the numerical IP Address on the left side and put a space and then paste your ingress resource host name you defined in the 'values.yaml' file..
+   # In my manifest file i defined my ingress hostname as 'videotube.local', so my '/etc/hosts' entry will look like this:
+   <numerical IP Address of load balancer you copied from netstat> video.local
 
-   # Now open your browser and type 'http://videotube.local' and it must open a webpage of this backend project.
+   # Save & now open your browser and type 'http://videotube.local' and it must open a EJS frontend webpage of this backend project.
 
    # This means now this backend project is running/deployed on EKS properly and you can access it on internet and it API request using POSTMAN..
    ```
