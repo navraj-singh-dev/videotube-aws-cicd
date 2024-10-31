@@ -15,7 +15,7 @@ Please visit this repository, if you are interested in learning jsut about my ba
 
 ## 📺 Live Demo Video
 
-**Please watch this live demo video, in this video the complete project was fully & completely deployed live on AWS EKS and i was explaning it..**
+**Please watch this live demo video, in this video the complete project was fully deployed live on AWS EKS and i was explaning it..**
 <br>
 [`Live Demo On Youtube`](https://youtu.be/l8UB04Sm9FQ)
 
@@ -306,8 +306,6 @@ The project follows a typical [Node.js] MVC architecture pattern with additional
 Contributions are welcome! Please contact me persoanally through any medium you like!
 
 ## 👨‍💻 About ME
-
-Your Name
 
 - LinkedIn: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[My LinkedIN Profile](https://www.linkedin.com/in/navraj-singh-78b746210/)
 - X (Twitter): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[My X Profile](https://x.com/NavrajSinghDev)
